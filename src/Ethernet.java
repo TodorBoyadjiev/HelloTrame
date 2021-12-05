@@ -9,17 +9,13 @@ public class Ethernet {
 	}
 	
 	public String takeEthernet(String t) {
-	    System.out.println(t);
+	    //System.out.println(t);
 	    String dest = t.subSequence(3, 20).toString().replace(" ",":");
 	    String src = t.subSequence(21, 38).toString().replace(" ",":");
 	    String type = t.subSequence(39, 44).toString().replace(" ","");
 	    String res = "Ethernet \n\tDestination MAC Adress: " + dest;
 	    res+="\n\tSource MAC Adress: "+ src;
-	    
 
-	    System.out.println(dest);
-	    System.out.println(src);
-	    System.out.println(type);
 
 
 	    /*

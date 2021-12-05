@@ -12,47 +12,78 @@ import java.util.Scanner;
 public class ReadFile {
 
 	public static int getDecimal(String hex){  
-	    String digits = "0123456789ABCDEF";  
-	             hex = hex.toUpperCase();  
-	             int val = 0;  
-	             for (int i = 0; i < hex.length(); i++)  
-	             {  
-	                 char c = hex.charAt(i);  
-	                 int d = digits.indexOf(c);  
-	                 val = 16*val + d;  
-	             }  
-	             return val;  
-	}  
+		String digits = "0123456789ABCDEF";  
+		hex = hex.toUpperCase();  
+		int val = 0;  
+		for (int i = 0; i < hex.length(); i++)  
+		{  
+			char c = hex.charAt(i);  
+			if(c==' ') {
+				continue;
+			}
+			int d = digits.indexOf(c);  
+			val = 16*val + d;  
+		}  
+		return val;  
+	} 
+	public static void readn(BufferedReader bf, int n) throws IOException {
+		for(int i = 0; i<n;i++) {
+	        bf.read();
+		}
+	}
 	public static void openandprint(File fichier) throws IOException {
 		BufferedReader in = null;
-		String line;
 		char[] rea = new char[100];
-		char[] offset = new char[4];
+		char[] offset = new char[4];	
+		char[] ipSize = new char[1];
 
-		boolean eth = false;
+		char[] dea = new char[60];
+		char[] fea = new char[6];
+		char [] udp = new char[100];
+
 		int IPsize = 0;
-		int lineIndex = 0;
-		int reading;
-		ArrayList<String> ipData = new ArrayList<>();
         try{
             in = new BufferedReader(new FileReader(fichier));
 		    in.read(offset,0,4);
 		    String str = new String(offset);
-		    in.read(rea,1,44);
+		    in.read(rea,0,44);
 		 	Ethernet t = new Ethernet(new String(rea));
 		    System.out.println(t);
 		    rea = new char[rea.length];
-
-		    in.read(rea,0,3);
-		    String ddd = new String(rea);
-		    System.out.println(ddd);
-		    System.out.print(ddd);
-
+	        int value = 0;
+	        in.read();
+	        in.read();
+		    in.read(ipSize,0,1);
+	        readn(in, 12);
+		    String ddd = new String(ipSize);
 		    IPsize=  getDecimal(ddd);
-		    System.out.println(IPsize);
-		   // while(in.read(rea,0,99) != -1){
-		    	
-		   // }
+		    
+		    in.read(dea,0,16*3);
+		    
+	        readn(in,8);
+		    in.read(dea,16*3,5);
+		 
+		    IP ip = new IP(new String(dea), IPsize);
+		    System.out.println(ip);
+		    in.read(udp,0,80);
+
+		    String udpString = new String(udp);
+		    UDP udpP = new UDP(new String(udpString));
+
+		    System.out.println(udpP);
+
+		    
+		    
+
+		    /*while((value = in.read()) != -1) {
+		         
+	            // converts int to character
+	            char c = (char)value;
+	            
+	            // prints character
+	            System.out.println(c);
+	        }*/
+
 		    /*while((line = in.readLine()) != null){
     		     System.out.println(line);
     		    String word = line.split("\\s+")[0];
