@@ -40,6 +40,7 @@ public class ReadFile {
 		char[] dea = new char[60];
 		char[] fea = new char[6];
 		char [] udp = new char[100];
+		char [] dhcp = new char[100];
 
 		int IPsize = 0;
         try{
@@ -65,12 +66,19 @@ public class ReadFile {
 		 
 		    IP ip = new IP(new String(dea), IPsize);
 		    System.out.println(ip);
-		    in.read(udp,0,80);
+		    in.read(udp,0,25);
+		    in.read(dhcp,0,25);
+
 
 		    String udpString = new String(udp);
+		    String dhcpString = new String(dhcp);
+
 		    UDP udpP = new UDP(new String(udpString));
+		    DHCP dhcpP = new DHCP(new String(dhcpString));
 
 		    System.out.println(udpP);
+		    System.out.println(dhcpP);
+
 
 		    
 		    

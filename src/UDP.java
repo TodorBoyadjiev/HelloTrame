@@ -7,10 +7,9 @@ public class UDP {
 	}
 	
 	public String takeUDP(String g) {
-		//System.out.println(g);
+		System.out.println(g);
 
 	    String res = "UDP \n\t ";
-	    //System.out.println(t);
 	    String srcPort = g.subSequence(1, 6).toString();
 	    String destPort = g.substring(7,12).toString();
 	    String length  = g.subSequence(12, 19).toString();

@@ -9,17 +9,17 @@ public class DHCP {
 	public String takeDHCP(String g) {
 		System.out.println(g);
 
-	    String res = "	Dynamic Host Configuration Protocol (ACK)\n"+ " \n\t ";
+	    String res = "\n\t Dynamic Host Configuration Protocol";
 	    //System.out.println(t);
 	    
 	    String mesType = g.subSequence(1, 6).toString();
-	    String  hardwareType= g.substring(7,12).toString();
-	    String length  = g.subSequence(12, 19).toString();
+	    String hardwareType= g.substring(7,12).toString();
+	    String hardwareLength  = g.subSequence(12, 19).toString();
 	    String checksum  = g.subSequence(19, 25).toString();
 	    
 	    res+="\n\tMessage Type : ";
-	    res+="\n\tDestination Port : ";
-	    res+= "\n\tLength: " + ReadFile.getDecimal(length);
+	    res+="\n\tHardware Type: ";
+	    res+= "\n\tHardware address length: " + ReadFile.getDecimal(hardwareLength);
 	    res+= "\n\tChecksum: 0x" + checksum;
         
 	    
