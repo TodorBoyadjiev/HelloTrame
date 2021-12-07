@@ -11,25 +11,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Main {
 	public static void main(String args[]) throws IOException{
+		
 		// Hello Trame
 		
-		ReadFile.openandprint(new File("dhcp.txt"));
+		ReadFile.openandprint(new File("tramedns.txt"));
 		
-		
-		
-		
-		
-		 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		/*JFrame frame = new JFrame("My First GUI");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
