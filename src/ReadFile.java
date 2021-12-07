@@ -1,13 +1,19 @@
 
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class ReadFile {
 
@@ -33,19 +39,27 @@ public class ReadFile {
 	}
 	public static void openandprint(File fichier) throws IOException {
 		BufferedReader in = null;
-		char[] rea = new char[100];
-		char[] offset = new char[4];	
-		char[] ipSize = new char[1];
+		BufferedWriter output = null;
 
-		char[] dea = new char[60];
-		char[] fea = new char[6];
-		char [] udp = new char[100];
-		char [] dhcp = new char[100];
-
-		int IPsize = 0;
+		String line;
+		StringBuilder text = new StringBuilder();
+		int octetParLigne = 0;
+		int prevLength = 0;
+		int nbOctets=0;
+    	int prevOffset = 0;
+    	int prevNbOctets = 0;
+    	
         try{
-            in = new BufferedReader(new FileReader(fichier));
-		    in.read(offset,0,4);
+           
+        	in = new BufferedReader(new FileReader(fichier));
+	         File file = new File("result.txt");
+	         output = new BufferedWriter(new FileWriter(file));
+
+
+
+        	//Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("result.txt"), "utf-8"));
+		    ///    NOT USED
+        	/*in.read(offset,0,4);
 		    String str = new String(offset);
 		    in.read(rea,0,44);
 		 	Ethernet t = new Ethernet(new String(rea));
@@ -77,33 +91,60 @@ public class ReadFile {
 		    DHCP dhcpP = new DHCP(new String(dhcpString));
 
 		    System.out.println(udpP);
-		    System.out.println(dhcpP);
+		    System.out.println(dhcpP);*/
 
 
-		    
-		    
-
-		    /*while((value = in.read()) != -1) {
-		         
-	            // converts int to character
-	            char c = (char)value;
-	            
-	            // prints character
-	            System.out.println(c);
-	        }*/
-
-		    /*while((line = in.readLine()) != null){
-    		     System.out.println(line);
-    		    String word = line.split("\\s+")[0];
-    		    int decimal=getDecimal(word); 
-    		    System.out.println(decimal);
-    		   String[] parts = line.split(" ");
-    		    String ethernet = "";
+		    while((line = in.readLine()) != null){
+		    	if(Pattern.compile("0000").matcher(line).find()) {
+		    		if(!text.isEmpty()) {
+		    			String singleString = text.toString();
+		    			AnalyseTrame at = new AnalyseTrame(singleString);
+    		        	System.out.println(at.analyse());
+    		        	output.write("\r\nTrame \r\n");
+		    		    output.write(at.analyse());
+		    		
+		    		}
+				    System.out.println(text.toString());
+		    		text = new StringBuilder();
+		    		prevOffset=0;
+		    	}
+		    	
+		    	if(!(Pattern.compile("^[0-9A-Fa-f]{4}").matcher(line).find()) && (!line.isBlank())) {
+		    		continue;
+		    	}
+		    	
+		    	String[] parts = line.split("   ");
+		    	octetParLigne = getDecimal(parts[0]);
+		    	if(octetParLigne-prevOffset != nbOctets && octetParLigne!=0 && !parts[0].equals("0000")&& !parts[0].equals("0")) {
+		    		System.out.println("ERROR IN FILE : OFFSET " + octetParLigne);
+		    	}
+		        
+		    	
+		    	System.out.println(octetParLigne);
     		    for(int i=1;i<parts.length;i++) {
-        		    System.out.println("next: " + parts[i]);
-    		    }
+    		    	String [] souspartie = parts[i].split(" ");
+    		    	nbOctets = souspartie.length;
+	    		    text.append(parts[i]);
+	    		}
+	    		text.append(" ");
 
-    		    if(++lineIndex > 3) {
+		    	prevOffset = octetParLigne;
+			    	
+		    	
+    		    //System.out.println(line);
+    		    /*String word = line.split("\\s+")[0];
+    		    int decimal=getDecimal(word); 
+    		    System.out.println(decimal);*/
+    		    
+   		     	
+    		    
+    		    // ONE FLE
+    		    
+    		    // second file
+    		    
+    		    // third file...
+
+    		    /*if(++lineIndex > 3) {
 
     		    }
     		    if(!eth) {
@@ -128,14 +169,20 @@ public class ReadFile {
     		    	i++;
     		    }
     		    IP ip = new IP(ipData);
-    		    System.out.println(ip);
+    		    System.out.println(ip);*/
     		   
-    		}*/
+    		}
+
+
+
         }
         finally{
             if(in != null){
                 in.close();
             }
+            if ( output != null ) {
+	            output.close();
+	         }
         }
 		
 	}

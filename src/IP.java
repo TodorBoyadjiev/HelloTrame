@@ -18,41 +18,45 @@ public class IP {
 		return one+"."+two+"."+three+"."+four;
 	}
 	
-	public IP(String string, int size) {
+	public IP(String string, String size) {
 		ip = takeIP(string, size);
 	}
 	
 	
-	public String takeIP(String t, int size) {
+	public String takeIP(String t, String size) {
 	    //System.out.println(t);
-
-	    String res = "IP \n\tVersion: 4 ";
+		
+		int iplength = ReadFile.getDecimal(size);
+		if(iplength*4==60) {
+			options=true;
+		}
+	    String res = "\r\nIP \r\n\tVersion: 4 ";
 	    //System.out.println(t);
-	    res+="\n\tHeader Length: "+  size*4+ " bytes ("+size+")";
-	    res+="\n\tDifferentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)\n";
-	    String totLength = t.subSequence(0, 5).toString();
-	    String ident = t.subSequence(6, 12).toString();
-	    String flags = t.subSequence(14, 17).toString();
-	    String ttl  = t.subSequence(17, 20).toString();
-	    String proto = t.subSequence(21, 24).toString();
-	    String check= t.subSequence(24, 29).toString();
-	    String src= t.subSequence(30, 41).toString();
-	    String dest= t.subSequence(41, 53).toString();
-	    res+= "\n\tTotal Length: " +  ReadFile.getDecimal(totLength);
-	    res+= "\n\tIdentification: 0x" + ident+ "("+ ReadFile.getDecimal(ident) +")";
-	    res+= "\n\tFlags: 0x" + flags;
-	    res+= "\n\t0... .... .... .... = Reserved bit: Not set";
-	    res+= "\n\t.0.. .... .... .... = Don't fragment: Not set";
-	    res+= "\n\t..0. .... .... .... = More fragments: Not set";
-	    res+="\n\tFragment offset: 0";
-	    res+="\n\tTime to live: "+ttl;
+	    res+="\r\n\tHeader Length: "+  iplength*4+ " bytes ("+iplength+")";
+	    res+="\r\n\tDifferentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)\r\n";
+	    String totLength = t.subSequence(6, 12).toString();
+	    String ident = t.subSequence(12, 18).toString();
+	    String flags = t.subSequence(20, 23).toString();
+	    String ttl  = t.subSequence(23, 26).toString();
+	    String proto = t.subSequence(27, 29).toString();
+	    String check= t.subSequence(30, 35).toString();
+	    String src= t.subSequence(36, 47).toString();
+	    String dest= t.subSequence(48, 59).toString();
+	    res+= "\r\n\tTotal Length: " +  ReadFile.getDecimal(totLength);
+	    res+= "\r\n\tIdentification: 0x" + ident.replace(" ", "")+ "("+ ReadFile.getDecimal(ident) +")";
+	    res+= "\r\n\tFlags: 0x" + flags.replace(" ", "");
+	    res+= "\r\n\t0... .... .... .... = Reserved bit: Not set";
+	    res+= "\r\n\t.0.. .... .... .... = Don't fragment: Not set";
+	    res+= "\r\n\t..0. .... .... .... = More fragments: Not set";
+	    res+="\r\n\tFragment offset: 0";
+	    res+="\r\n\tTime to live: "+ttl;
 
-		res+="\n\tProtocol: "+proto;
+		res+="\r\n\tProtocol: "+proto;
 
-		res+="\n\tHeader checksum: "+check;
-		res+="\n\tSource: "+getAdress(src);
+		res+="\r\n\tHeader checksum: 0x"+check.replace(" ", "");
+		res+="\r\n\tSource: "+getAdress(src);
 
-		res+="\n\tDestination: "+getAdress(dest);
+		res+="\r\n\tDestination: "+getAdress(dest);
 
 
 

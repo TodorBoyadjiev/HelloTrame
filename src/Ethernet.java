@@ -10,11 +10,11 @@ public class Ethernet {
 	
 	public String takeEthernet(String t) {
 	    //System.out.println(t);
-	    String dest = t.subSequence(3, 20).toString().replace(" ",":");
-	    String src = t.subSequence(21, 38).toString().replace(" ",":");
-	    String type = t.subSequence(39, 44).toString().replace(" ","");
-	    String res = "Ethernet \n\tDestination MAC Adress: " + dest;
-	    res+="\n\tSource MAC Adress: "+ src;
+	    String dest = t.subSequence(0, 17).toString().replace(" ",":");
+	    String src = t.subSequence(18, 35).toString().replace(" ",":");
+	    String type = t.subSequence(36, 41).toString().replace(" ","");
+	    String res = "Ethernet \r\n\tDestination MAC Adress: " + dest;
+	    res+="\r\n\tSource MAC Adress: "+ src;
 
 
 
@@ -34,7 +34,7 @@ public class Ethernet {
 		    }
 		    */
 	    switch(type){
-	    	case "0800" :  dataInEthernet = true; res+="\n\tType: 0x"+ type+ " (IPv4)"; break;
+	    	case "0800" :  dataInEthernet = true; res+="\r\n\tType: 0x"+ type+ " (IPv4)"; break;
 	
 	    	default:   
 	    		res+="\n\tType: "+ type;
