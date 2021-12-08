@@ -29,10 +29,11 @@ public class IP {
 		if(iplength*4==60) {
 			options=true;
 		}
+
 		StringBuilder res = new StringBuilder();
 	    res.append("\r\nIP \r\n\tVersion: 4 \r\n\tHeader Length: "+  iplength*4+ " bytes ("+iplength+")"
 	    		 + "\r\n\tDifferentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)\r\n");
-	    //System.out.println(t);
+
 	    
 	    String totLength = t.substring(6, 12);
 	    String ident = t.substring(12, 18);
@@ -50,6 +51,7 @@ public class IP {
 	    res.append("\r\n\t0... .... .... .... = Reserved bit: Not set");
 
 	    res.append("\r\n\t.0.. .... .... .... = Don't fragment: Not set");
+
 
 	    res.append("\r\n\t..0. .... .... .... = More fragments: Not set");
 

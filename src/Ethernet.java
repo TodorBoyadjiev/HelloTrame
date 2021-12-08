@@ -18,6 +18,7 @@ public class Ethernet {
 
 	    switch(type){
 	    	case "0800" :  dataInEthernet = true; res.append("\r\n\tType: 0x"+ type+ " (IPv4)"); break;
+
 	
 	    	default:   
 	    		res.append("\n\tType: "+ type);
