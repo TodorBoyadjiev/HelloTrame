@@ -40,6 +40,9 @@ public class IP {
 	    String flags = t.substring(20, 23);
 	    String ttl  = t.substring(23, 26);
 	    String proto = t.substring(27, 29);
+	    if(proto.equals(11)) {
+	    	dataInIP=true;
+	    }
 	    String check= t.substring(30, 35);
 	    String src= t.substring(36, 47);
 	    String dest= t.substring(48, 59);
