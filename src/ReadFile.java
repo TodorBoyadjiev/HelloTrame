@@ -51,7 +51,7 @@ public class ReadFile {
 
 	        while((line = in.readLine()) != null){
 	        	if(Pattern.compile("0000").matcher(line).find()) {
-	        		if(!text.isEmpty()) {
+	        		if(text.length()!=0) {
 
 	        			String singleString = text.toString();
 	        			AnalyseTrame at = new AnalyseTrame(singleString);
@@ -66,7 +66,7 @@ public class ReadFile {
 	        		prevOffset=0;
 	        	}
 
-	        	if(!(Pattern.compile("^[0-9A-Fa-f]{4}").matcher(line).find()) && (!line.isBlank())) {
+	        	if(!(Pattern.compile("^[0-9A-Fa-f]{4}").matcher(line).find()) && (!line.trim().isEmpty())) {
 	        		continue;
 	        	}
 
