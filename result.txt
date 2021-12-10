@@ -1,5 +1,5 @@
 
-Trame 1 
+Trame 1
 Ethernet 
 	Destination MAC Adress: 0c:dd:24:82:65:77
 	Source MAC Adress: 00:09:0f:09:00:02
@@ -37,8 +37,95 @@ DNS
 	Additional RRs: 1
 	Queries: 
 		api.spotify.com
-	Answers: 
-		spotify.com
 		Type : 0x0001
 		Class : 0x0001
+	Answers: 
+		api.spotify.com
+		Type : 0x0005
+		Class : 0x0001
 	Additional records: 
+Trame 2
+Ethernet 
+	Destination MAC Adress: 08:00:27:38:db:ed
+	Source MAC Adress: 08:00:27:97:3f:45
+	Type: 0x0800 (IPv4)
+IP 
+	Version: 4 
+	Header Length: 20 bytes (5)
+	Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
+
+	Total Length: 115
+	Identification: 0x00f5(245)
+	Flags: 0x00
+	0... .... .... .... = Reserved bit: Not set
+	.0.. .... .... .... = Don't fragment: Not set
+	..0. .... .... .... = More fragments: Not set
+	Fragment offset: 0
+	Time to live:  80
+	Protocol: 11
+	Header checksum: 0x3581
+	Source: 1.1.1.2
+	Destination: 1.1.1.1
+UDP 
+	 
+	Source Port : 1028
+	Destination Port : 53
+	Length: 95
+	Checksum: 0x6ffd
+DNS 
+	 
+	Transaction ID : 4000
+	Flags: 0x0000
+	Questions: 1
+	Answer RRs: 0
+	Authority RRs: 1
+	Additional RRs: 0
+	Queries: 
+		etas.com
+		Type : 0x00fb
+		Class : 0x0001
+	Authority records: 
+Trame 
+Ethernet 
+	Destination MAC Adress: 08:00:27:97:3f:45
+	Source MAC Adress: 08:00:27:38:db:ed
+	Type: 0x0800 (IPv4)
+IP 
+	Version: 4 
+	Header Length: 20 bytes (5)
+	Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
+
+	Total Length: 243
+	Identification: 0x0dd1(3537)
+	Flags: 0x00
+	0... .... .... .... = Reserved bit: Not set
+	.0.. .... .... .... = Don't fragment: Not set
+	..0. .... .... .... = More fragments: Not set
+	Fragment offset: 0
+	Time to live:  80
+	Protocol: 11
+	Header checksum: 0x2825
+	Source: 1.1.1.1
+	Destination: 1.1.1.2
+UDP 
+	 
+	Source Port : 53
+	Destination Port : 1028
+	Length: 223
+	Checksum: 0x2f0a
+DNS 
+	 
+	Transaction ID : 4000
+	Flags: 0x8080
+	Questions: 1
+	Answer RRs: 5
+	Authority RRs: 0
+	Additional RRs: 0
+	Queries: 
+		etas.com
+		Type : 0x00fb
+		Class : 0x0001
+	Answers: 
+		etas.com
+		Type : 0x0006
+		Class : 0x0001

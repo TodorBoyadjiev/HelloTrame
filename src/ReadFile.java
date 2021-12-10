@@ -87,11 +87,11 @@ public class ReadFile {
 
 	        	prevOffset = octetParLigne;
 	        }
-	        if(counter==1) {
+	        if(counter>0) {
     			String singleString = text.toString();
     			AnalyseTrame at = new AnalyseTrame(singleString);
     			System.out.println(at.analyse());
-    			output.write("\r\nTrame 1 \r\n");
+    			output.write("\r\nTrame \r\n");
     			output.write(at.analyse());
 	        }
 
