@@ -19,7 +19,7 @@ public class Main {
 			ReadFile.openandprint(new File(args[0]));
 
 		}
-		//ReadFile.openandprint(new File("dhcp.txt"));
+		//ReadFile.openandprint(new File("tramedns.txt"));
 		
 		
 	   

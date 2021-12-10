@@ -1,16 +1,39 @@
 # HelloTrame
 
+## Un analyseur de protocoles offline qui prend en entrée une fichier .txt 
 
-## A Wireshark-based protocol analyser for Ethernet, IP, UDP and DNS/DHCP
+Il peut analyser les protocoles Ethernet, IPv4, UDP, DNS et DHCP. La procedure de lancement est décrit dans le howtoDO.txt. Le programme peux aussi prendre un fichier avec plusieurs lignes blanches, de caractères aléatoires.
 
-### Structure of the code
+### Built With
+* [Java](https://www.java.com)
 
-The analyser uses a basic java main program, combined with a class ReadFile for reading .txt file protocols which are later exported to AnalyseTrame to be analysed.
+## Structure de code
+Le programme fonctionne de le manière suivant:
+- Main récupère l'argument mis en parametre dans le terminal, puis Main appelle ReadFile
+- ReadFile isole les trames et les transmet au AnalyseTrame
+- AnalyseTrame fait scanner les fichiers et extrait les informations
+- le resultat est sauvegard� dans result.txt
 
-For every protocol, a class is created. This class in analysed with the help of the String created from ReadFile. The class has different methods for every parameter, for exemple, IP has a method for extracting and converting the IP adresses and also a method takeIP() which produces a textual result.
+Il y a 3 fichiers de base:
+- Main.java
+- ReadFile.java
+- AnalyseTrame.java
 
-### Ethernet protocol
+Il y a 5 fichiers qui servent pour a analyser les protocoles, 1 pour chaque protocole:
+- Ethernet.java
+- IP.java
+- UDP.java
+- DNS.java
+- DHCP.java
 
-There are three Ethernet parameters that we want to print - Destination MAC adress, Source MAC adress and Type of protocol embedded in Ethernet. The
+La plupart des fichiers utilisent un StringBuilder pour les affichages. 
 
 
+<!-- CONTACT -->
+## Contact
+
+Todor Boyadjiev - boyadjievtodor@gmail.com
+Samantha Richard - samantharichard1999@gmail.com
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>

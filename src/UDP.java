@@ -1,6 +1,6 @@
 
 public class UDP {
-	String e;
+	private String e;
 	private boolean dhcp = false;
 	private boolean dns = false;
 

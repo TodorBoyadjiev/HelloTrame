@@ -1,8 +1,10 @@
 
 public class DHCP {
-	String e;
+	private String e;
+	private int endOfOptions;
 
 	public DHCP(String g){
+		endOfOptions=0;
 		e=takeDHCP(g);
 	}
 	
@@ -43,24 +45,25 @@ public class DHCP {
 	public String getOption(String option) {
 		StringBuilder parameters = new StringBuilder();
 		String messType = option.substring(0, 2);
+		String length = option.substring(2, 4);
 				
 		switch(messType){
-    		case "35" : parameters.append("\r\n\tOption: DHCP Message Type = "+ getMessageType(option.substring(4,6))+"\r\n\t\tValue:"+option); break;
-    		case "36" : parameters.append("\r\n\tOption: DHCP Server Identifier = "+ getAdress(option.substring(4, 12))+"\r\n\t\tValue:"+option); break;
-    		case "74" : parameters.append("\r\n\tOption: DHCP Auto-Configuration = AutoConfigure"+ "\r\n\t\tValue:"+option); break;
-    		case "3d" : parameters.append("\r\n\tOption: Client identifier : "+"\r\n\t\tValue:"+ option); break;
+    		case "35" : parameters.append("\r\n\tOption: DHCP Message Type = "+ getMessageType(option.substring(4,6))+"\r\n\t\tValue:"+option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
+    		case "36" : parameters.append("\r\n\tOption: DHCP Server Identifier = "+ getAdress(option.substring(4, 12))+"\r\n\t\tValue:"+option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
+    		case "74" : parameters.append("\r\n\tOption: DHCP Auto-Configuration = AutoConfigure"+ "\r\n\t\tValue:"+option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
+    		case "3d" : parameters.append("\r\n\tOption: Client identifier : "+"\r\n\t\tValue:"+ option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
 
-    		case "32" : parameters.append("\r\n\tOption: Requested IP Address = "+ getAdress(option.substring(4, 12))+ "\r\n\t\tValue:"+option); break;
+    		case "32" : parameters.append("\r\n\tOption: Requested IP Address = "+ getAdress(option.substring(4, 12))+ "\r\n\t\tValue:"+option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
 
-    		case "0c" : parameters.append("\r\n\tOption: Host Name  = "+AnalyseTrame.hexToAscii(option.substring(4, option.length()))+"\r\n\t\tValue:"+ option); break;
+    		case "0c" : parameters.append("\r\n\tOption: Host Name  = "+AnalyseTrame.hexToAscii(option.substring(4, option.length()))+"\r\n\t\tValue:"+ option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
 
-    		case "3c" : parameters.append("\r\n\tOption: Vendor class identifier = "+AnalyseTrame.hexToAscii(option.substring(4, option.length()))+"\r\n\t\tValue:"+ option); break;
+    		case "3c" : parameters.append("\r\n\tOption: Vendor class identifier = "+AnalyseTrame.hexToAscii(option.substring(4, option.length()))+"\r\n\t\tValue:"+ option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
     		case "37" : parameters.append("\r\n\tOption: Parameter Request List"+"\r\n\t\tValue:"+ option); break;
-    		case "01" : parameters.append("\r\n\tOption: Subnet Mask = "+ getAdress(option.substring(4, 12))+ "\r\n\t\tValue:"+option); break;
-    		case "03" : parameters.append("\r\n\tOption: Router = "+ getAdress(option.substring(4, 12))+ "\r\n\t\tValue:"+option); break;
-    		case "06" : parameters.append("\r\n\tOption: Domain Name Server = "+"\r\n\t\tValue:"+ option); break;
-    		case "0f" : parameters.append("\r\n\tOption: Domain Name = "+AnalyseTrame.hexToAscii(option.substring(4, option.length()))+"\r\n\t\tValue:"+ option); break;
-    		case "33" : parameters.append("\r\n\tOption: IP Address Lease Time   "+ "\r\n\t\tValue:"+ option); break;    		
+    		case "01" : parameters.append("\r\n\tOption: Subnet Mask = "+ getAdress(option.substring(4, 12))+ "\r\n\t\tValue:"+option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
+    		case "03" : parameters.append("\r\n\tOption: Router = "+ getAdress(option.substring(4, 12))+ "\r\n\t\tValue:"+option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
+    		case "06" : parameters.append("\r\n\tOption: Domain Name Server "+"\r\n\t\tValue:"+ option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
+    		case "0f" : parameters.append("\r\n\tOption: Domain Name = "+AnalyseTrame.hexToAscii(option.substring(4, option.length()))+"\r\n\t\tValue:"+ option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;
+    		case "33" : parameters.append("\r\n\tOption: IP Address Lease Time   "+ "\r\n\t\tValue:"+ option+"\r\n\t\tLength: "+ReadFile.getDecimal(length)); break;    		
     		
 
     	default:   
@@ -93,8 +96,8 @@ public class DHCP {
 	    String nextServerIP  = g.substring(59, 70);
 	    String relayAgentIP  = g.substring(71, 82);
 	    String clientMac  = g.substring(84, 101);
-	    String hardwarePadding = "00000000000000000000";
-
+	    String temp = g.substring(720, g.length()).replace(" ", "");
+	    String options = takeDHCPOptions(g.substring(720, g.length())).replace(" ", "");
 
 	    
 	    res.append("\r\n\tHardware Type: Ethernet ") ;
@@ -108,13 +111,14 @@ public class DHCP {
 	    res.append("\r\n\tNext server IP adress: " +IP.getAdress(nextServerIP));
 	    res.append("\r\n\tRelay agent IP adress: "+ IP.getAdress(relayAgentIP));
 	    res.append("\r\n\tClient MAC adress: " + clientMac.replace(" ",":")) ;
+	    String hardwarePadding = temp.substring(endOfOptions,temp.length());
 	    res.append("\r\n\tClient hardware adress padding : " +hardwarePadding) ;
 	    res.append("\r\n\tServer host name not given");
 	    res.append("\r\n\tBoot file name not given");
 	    res.append("\r\n\tMagic cookie: DHCP");
 
 	    res.append("\r\n\tDHCP Options ")  ;
-	    res.append(takeDHCPOptions(g.substring(720, g.length())));
+	    res.append(options);
 	    
 		return res.toString();
 	}
@@ -142,6 +146,7 @@ public class DHCP {
 			j+=length*2+4;
 
 		}
+		endOfOptions=j+10+2*SOlength+2;
 
 		return res.toString();
 	}
